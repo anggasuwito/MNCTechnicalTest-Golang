@@ -1,6 +1,7 @@
 #### PREPARATION
 
 ````
+- edit .env file
 - run redis in your local
 - import sql/db_technicaltest.sql 
     or 
