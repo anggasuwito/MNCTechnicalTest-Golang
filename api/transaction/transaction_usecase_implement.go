@@ -6,7 +6,6 @@ import (
 	"database/sql"
 	"errors"
 	"github.com/jinzhu/gorm"
-	"log"
 	"time"
 )
 
@@ -20,7 +19,7 @@ func (t TransactionUsecase) Payment(body model.Payment) (model.Payment, error) {
 	if err != nil {
 		return result, err
 	}
-	token, err := t.redis.Get("token").Result()
+	token, err := utils.GetRedisValue(t.redis,"token")
 	if err != nil {
 		return result, err
 	}
@@ -28,7 +27,6 @@ func (t TransactionUsecase) Payment(body model.Payment) (model.Payment, error) {
 	if !isValidatedToken {
 		return result, errors.New("You token has expired you need to be relogin")
 	}
-	log.Println(email)
 	if body.Email != email {
 		return result, errors.New("You cant do payment with different logged in email")
 	}

@@ -25,5 +25,18 @@ func InitDb() *gorm.DB {
 		panic(err)
 		return nil
 	}
+
+	var result model.Customer
+	customer1 := model.Customer{Email: "customer1@gmail.com", Password: "123"}
+	customer2 := model.Customer{Email: "customer2@gmail.com", Password: "123"}
+	err1 := db.Table("customer").Select("*").Where("email = ?", customer1.Email).Scan(&result).Error
+	err2 := db.Table("customer").Select("*").Where("email = ?", customer2.Email).Scan(&result).Error
+	if err1 == gorm.ErrRecordNotFound {
+		db.Create(&customer1)
+	}
+	if err2 == gorm.ErrRecordNotFound {
+		db.Create(&customer2)
+	}
+
 	return db
 }

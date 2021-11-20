@@ -20,11 +20,10 @@ func (c CustomerUsecase) Login(body model.Customer) error {
 		return errors.New("Your email and password doesn't match")
 	}
 	accessToken := utils.GenerateToken(body.Email)
-	c.redis.Set("token", accessToken, 0)
-	c.redis.Set("email", body.Email, 0)
+	utils.SetRedisValue(c.redis,"token",accessToken)
 	return nil
 }
 
 func (c CustomerUsecase) Logout() {
-	c.redis.Del("token")
+	utils.DeleteRedisValue(c.redis,"token")
 }

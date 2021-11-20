@@ -10,7 +10,6 @@ import (
 func InitRedis() *redis.Client {
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:         os.Getenv("REDIS_URL"),
-		MinIdleConns: 20,
 	})
 
 	_, err := redisClient.Ping().Result()
